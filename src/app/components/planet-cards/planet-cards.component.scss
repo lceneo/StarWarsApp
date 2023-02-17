@@ -1,0 +1,56 @@
+
+.loading{
+  text-align: center;
+  font-size: 24px;
+}
+span{
+  color: #3d90a1;
+}
+h1{
+  text-align: center;
+  color: cornflowerblue;
+  margin-bottom: 60px;
+  font-size: 60px;
+}
+.planet{
+  &__list{
+    margin: 0 auto;
+    width: 1200px;
+    padding: 0;
+    list-style-type: none;
+
+    &-filter{
+      width:99.5%;
+      color: gray;
+      height: 50px;
+      font-size: 25px;
+      font-style: italic;
+    }
+  }
+  &__item{
+    display: flex;
+    margin-bottom: 20px;
+    font-size: 25px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    padding: 10px;
+    transition: transform 0.3s;
+  }
+  &__item:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+  }
+  &__info{
+    &-wrapper{
+      margin-left: 200px;
+      justify-self: center;
+    }
+  }
+  &__name{
+    color: cornflowerblue;
+    text-decoration: underline;
+    text-decoration-color: darkblue;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
+    margin-bottom: 30px;
+  }
+}

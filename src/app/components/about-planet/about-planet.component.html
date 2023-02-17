@@ -1,0 +1,47 @@
+
+<div class="wrapper">
+  <nav>
+    <a class="link" routerLink="">
+      <img src="assets/img/icons/back.svg" alt="return"> Return
+    </a>
+  </nav>
+  <h1 class="planet__name">{{planet.name}}</h1>
+  <div class="planet__wrapper">
+    <img [src] = "'assets/img/planets/' + planet.name + '.jpg'" width="500px" height="300px">
+    <div class="planet__info-wrapper">
+      <p><span>Climate:</span> {{planet.climate}}</p>
+      <p><span>Terrain</span>: {{planet.terrain}}</p>
+      <p><span>Population</span>: {{planet.population}}</p>
+      <p><span>Rotation period</span>: {{planet.rotation_period}}</p>
+      <p><span>Orbital period:</span> {{planet.orbital_period}}</p>
+      <p><span>Diameter:</span> {{planet.diameter}}</p>
+      <p><span>Gravity:</span> {{planet.gravity}}</p>
+      <p><span>Water surface percentage:</span> {{planet.surface_water}}</p>
+    </div>
+  </div>
+  <div class="filter__wrapper">
+    <h2>Residents of {{planet.name}}</h2>
+    <label for="filter__select">Gender Filter</label>
+    <select id = "filter__select" class="filter__select" [(ngModel)]="gender">
+      <option selected = "selected">All</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>N/A</option>
+      <option>Hermaphrodite</option>
+      <option>None</option>
+    </select>
+  </div>
+  <ul class="residents__list">
+    <li class="residents__item" *ngFor="let resident of planet.residents |
+     genderFilter : gender">
+      <h3>{{resident.name}}</h3>
+      <p>Gender: {{resident.gender}}</p>
+      <p>Birth Year: {{resident.birth_year}}</p>
+      <p>Height: {{resident.height}}</p>
+      <p>Mass: {{resident.mass}}</p>
+      <p>Hair color: {{resident.hair_color}}</p>
+      <p>Skin color: {{resident.skin_color}}</p>
+      <p>Eye color: {{resident.eye_color}}</p>
+    </li>
+  </ul>
+</div>

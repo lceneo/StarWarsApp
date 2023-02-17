@@ -1,0 +1,19 @@
+
+<p class="loading" *ngIf="planetService.isPending; else loaded"> Loading...</p>
+<ng-template #loaded>
+<h1>StarWarsApp</h1>
+  <ul class="planet__list">
+    <input class="planet__list-filter" type="text" placeholder="Type the name of the planet..." [(ngModel)]="planetSearchStr">
+    <li routerLink="about" class="planet__item" *ngFor="let planet of planetService.planets | planetFilter: planetSearchStr"
+        (click)="sharedInfoService.setPlanet(planet)">
+      <img [src] = "'assets/img/planets/' + planet.name + '.jpg'" [alt]="planet.name" width="500px" height="300px">
+      <div class="planet__info-wrapper">
+        <h2 class="planet__name">{{planet.name}}</h2>
+        <p><span>Climate:</span> {{planet.climate}}</p>
+        <p><span>Terrain:</span> {{planet.terrain}}</p>
+        <p><span>Population:</span> {{planet.population}}</p>
+      </div>
+    </li>
+  </ul>
+</ng-template>
+
