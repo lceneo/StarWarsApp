@@ -39,7 +39,7 @@
 ### Фильтрация по названию
 Присутствует фильтрация планет по их названию.
 <br><br>
-![image](https://user-images.githubusercontent.com/94864786/219674706-d287394e-ce0d-47f3-81c8-c13c363c4de0.png)
+![image](https://user-images.githubusercontent.com/94864786/219952503-e7a1fd8a-9672-46f5-b73b-94a0cb565f54.png)
 <br><br>
 
 <a name = info_page></a>
