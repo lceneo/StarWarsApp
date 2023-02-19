@@ -5,4 +5,5 @@ export interface IResponse{
   "results": IPlanet[] | IResident[];
   "next": string;
   "previous": string;
+  "count": number;
 }

@@ -14,7 +14,7 @@ export class PlanetService {
   public planets: IPlanet[] = [];
   public isPending: boolean = false;
   private planetsPageCount: number = 6;
-  private planetsParseFinished: boolean = true;
+  private planetsParseFinished: boolean;
   private residentsPageCount: number = 9;
   private residents: IResident[] = [];
 
@@ -32,8 +32,10 @@ export class PlanetService {
             (p as IPlanet).residents = [];
             this.planets.push(p as IPlanet);
           });
-          if(currentPage >= this.planetsPageCount)
+          if(this.planets.length === res.count) {
+            this.planets.sort((f,s) => this.parsePlanetId(f.url) - this.parsePlanetId(s.url));
             this.planetsParseFinished = true;
+          }
         });
       currentPage++;
     }
@@ -46,7 +48,7 @@ export class PlanetService {
         .pipe(take(1))
         .subscribe(res => {
           res.results.forEach(r => this.residents.push(r as IResident));
-          if(currentPage >= this.residentsPageCount) {
+          if(this.residents.length === res.count) {
               const interval = setInterval(() => {
                 if(this.planetsParseFinished) {
                   this.residents.forEach(r => this.planets[this.parsePlanetId(r.homeworld) - 1].residents.push(r));

@@ -10,5 +10,6 @@ export interface IPlanet {
   "terrain": string,
   "surface_water": string,
   "population": string,
-  "residents": IResident[]
+  "residents": IResident[],
+  "url": string;
 }
