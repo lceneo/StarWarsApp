@@ -1,14 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PlanetService} from "../../services/planet.service";
-import {SharedInfoService} from "../../services/shared-info.service";
 
 @Component({
   selector: 'app-planet-cards',
   templateUrl: './planet-cards.component.html',
   styleUrls: ['./planet-cards.component.scss']
 })
-export class PlanetCardsComponent implements OnInit {
-  constructor(public planetService: PlanetService, public sharedInfoService: SharedInfoService) {}
+export class PlanetCardsComponent implements OnInit, OnDestroy {
+  constructor(public planetService: PlanetService) {}
 
   public planetSearchStr: string = "";
 
@@ -16,5 +15,9 @@ export class PlanetCardsComponent implements OnInit {
     if(this.planetService.planets.length !== 0)
       return;
     this.planetService.getPlanetsWithResidents();
+  }
+
+  ngOnDestroy(): void {
+    this.planetService.subscribtions.forEach(s => s.unsubscribe());
   }
 }

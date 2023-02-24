@@ -5,8 +5,9 @@ import {AboutPlanetComponent} from "./components/about-planet/about-planet.compo
 
 
 const routes: Routes = [
-  {path: "", component: PlanetCardsComponent},
-  {path: "about", component: AboutPlanetComponent}];
+  {path: "", redirectTo: "planets", pathMatch: "full"},
+  {path: "planets", component: PlanetCardsComponent},
+  {path: "planets/:id", component: AboutPlanetComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],

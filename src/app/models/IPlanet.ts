@@ -1,6 +1,7 @@
 import {IResident} from "./IResident";
 
 export interface IPlanet {
+  "id": number,
   "name": string,
   "rotation_period": string,
   "orbital_period": string,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {mergeMap, range, take} from "rxjs";
+import {mergeMap, range, Subscription, take} from "rxjs";
 import {IPlanet} from "../models/IPlanet";
 import {IResponse} from "../models/IResponse";
 import {IResident} from "../models/IResident";
@@ -17,29 +17,31 @@ export class PlanetService {
   private planetsParseFinished: boolean;
   private residentsPageCount: number = 9;
   private residents: IResident[] = [];
+  public subscribtions: Subscription[] = [];
 
   public getPlanetsWithResidents(): void {
     this.isPending = true;
     this.planetsParseFinished = false;
     let requestStr = "https://swapi.dev/api/planets/";
     this.getResidents();
-    range(1,this.planetsPageCount)
+    this.subscribtions.push(range(1,this.planetsPageCount)
       .pipe(mergeMap(n => this.httpClient.get<IResponse>(`${requestStr}?page=${n}`)
         .pipe(take(1))))
       .subscribe(res =>{
         res.results.forEach(p => {
-          (p as IPlanet).residents = [];
-          this.planets.push(p as IPlanet);
+          let planet = p as IPlanet;
+          this.initialisePlanetIdAndResidents(planet);
+          this.planets.push(planet);
         });
         if(this.planets.length === res.count){
-          this.planets.sort((f,s) => this.parsePlanetId(f.url) - this.parsePlanetId(s.url));
+          this.planets.sort((f,s) => f.id - s.id);
           this.planetsParseFinished = true;
         }
-      });
+      }));
   }
   private getResidents(){
     let requestStr = "https://swapi.dev/api/people/";
-    range(1, this.residentsPageCount)
+    this.subscribtions.push(range(1, this.residentsPageCount)
       .pipe(mergeMap(n => this.httpClient.get<IResponse>(`${requestStr}?page=${n}`)
         .pipe(take(1))))
       .subscribe(res => {
@@ -47,15 +49,17 @@ export class PlanetService {
         if(this.residents.length === res.count) {
           const interval = setInterval(() => {
             if(this.planetsParseFinished) {
-              this.residents.forEach(r => this.planets[this.parsePlanetId(r.homeworld) - 1].residents.push(r));
+              this.residents.forEach(r =>
+                this.planets[parseInt(r.homeworld.substring("https://swapi.dev/api/planets/".length)) - 1].residents.push(r));
               this.isPending = false;
               clearInterval(interval);
             }
           }, 400);
         }
-      })
+      }));
   }
-  private parsePlanetId(homeworldStr: string): number{
-    return parseInt(homeworldStr.substring("https://swapi.dev/api/planets/".length));
+  private initialisePlanetIdAndResidents(planet: IPlanet): void{
+    planet.residents = [];
+    planet.id = parseInt(planet.url.substring("https://swapi.dev/api/planets/".length));
   }
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IPlanet} from "../../models/IPlanet";
-import {SharedInfoService} from "../../services/shared-info.service";
+import {ActivatedRoute} from "@angular/router";
+import {PlanetService} from "../../services/planet.service";
 
 @Component({
   selector: 'app-about-planet',
@@ -8,13 +9,13 @@ import {SharedInfoService} from "../../services/shared-info.service";
   styleUrls: ['./about-planet.component.scss']
 })
 export class AboutPlanetComponent implements OnInit{
-  constructor(public sharedInfoService: SharedInfoService) {}
+  constructor(private planetService: PlanetService, private route: ActivatedRoute) {}
 
   public planet: IPlanet;
   public gender: string = "All";
 
   ngOnInit(): void {
-    this.planet = this.sharedInfoService.getPlanet();
+    this.route.params.subscribe(p =>
+        this.planet = this.planetService.planets[parseInt(p.id) - 1]);
   }
-
 }
